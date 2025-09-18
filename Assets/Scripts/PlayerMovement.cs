@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
@@ -6,6 +7,15 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded = true;
     private Animator anim;
+   
+
+    private bool canDash = true;
+    private bool isDashing;
+    public float dashingPower = 24f;
+    public float dashingTime = 0.2f;
+    public float dashingCooldown = 1f;
+
+    [SerializeField] private TrailRenderer tr;
 
     void Start()
     {
@@ -15,6 +25,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (isDashing)
+        {
+            return;
+        }
+
         float move = Input.GetAxis("Horizontal");
         rb.linearVelocity = new Vector2(move * moveSpeed, rb.linearVelocity.y);
 
@@ -40,6 +55,11 @@ public class PlayerMovement : MonoBehaviour
         else if (move < 0)
             transform.localScale = new Vector3(-10, 10, 1);
 
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -47,6 +67,24 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+
         }
+
+    }
+
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        rb.linearVelocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+        tr.emitting = true;
+        yield return new WaitForSeconds(dashingTime);
+        tr.emitting = false;
+        rb.gravityScale = originalGravity;
+        isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
     }
 }
