@@ -12,7 +12,7 @@ public class PlayerGunController : MonoBehaviour
 
     void Update()
     {
-        // get the gun with mause click
+        
         if (Input.GetMouseButtonDown(1))
         {
             
@@ -22,7 +22,7 @@ public class PlayerGunController : MonoBehaviour
            
         }
 
-        // move with gun
+        
         bool isMoving = Mathf.Abs(Input.GetAxis("Horizontal")) > 0.01f;
         anim.SetBool("isShootingRun",isMoving);
         
