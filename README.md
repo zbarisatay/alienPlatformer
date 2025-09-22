@@ -36,3 +36,5 @@
 1. Clone or download this repository.  
 2. Open the project in **Unity**.  
 3. Press **Play** to start the game.  
+
+Game play video : https://www.linkedin.com/posts/ziyabarisatay_im-excited-to-share-my-very-first-assignment-activity-7375927379212468225-3afb?utm_medium=ios_app&rcm=ACoAAEImVKcBFHvIiW5LOGZI3LA-I8Ua-mAhj7M&utm_source=social_share_send&utm_campaign=copy_link
