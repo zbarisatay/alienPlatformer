@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject gameOverScreen;  // Canvas üzerindeki Game Over Panelini buraya sürükle
+    public GameObject gameOverScreen; 
     private bool isGameOver = false;
     public GameObject mainMenuScreen;
     public bool isGameStarted = false;
@@ -13,32 +13,32 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         mainMenuScreen.SetActive(true);
-        gameOverScreen.SetActive(false); // Başlangıçta kapalı kalsın
+        gameOverScreen.SetActive(false); 
 
     }
 
     public void StartGame()
     {
-        if (isGameStarted) return; // Tekrar tekrar çalışmasın
+        if (isGameStarted) return; 
         isGameStarted = true;
-        mainMenuScreen.SetActive(false); // Ana menüyü kapat
-        Time.timeScale = 1f; // Oyunu başlat
+        mainMenuScreen.SetActive(false); 
+        Time.timeScale = 1f; 
     }
-    // Karakterin canı 0 olunca burayı çağır
+    
     public void GameOver()
     {
-        if (isGameOver) return; // Tekrar tekrar çalışmasın
+        if (isGameOver) return; 
         isGameOver = true;
 
-        gameOverScreen.SetActive(true); // Panel aç
-        Time.timeScale = 0f; // Oyunu durdur
+        gameOverScreen.SetActive(true); 
+        Time.timeScale = 0f;
     }
 
-    // Butona basınca oyunu yeniden başlat
+    
     public void Replay()
     {
-        Time.timeScale = 1f; // Zamanı normale al
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Sahneyi yeniden yükle
-        StartGame(); // Oyunu başlat
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
+        StartGame(); 
     }
 }

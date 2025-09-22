@@ -5,6 +5,8 @@ public class GunShooting : MonoBehaviour
     public Transform shootingPoint;
     public GameObject bulletPrefab;
     public GameManager gameManager;
+    public AudioSource audioSource;
+    public AudioClip shootingSound;
 
 
     void Start()
@@ -19,6 +21,7 @@ public class GunShooting : MonoBehaviour
             return;
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
+            audioSource.PlayOneShot(shootingSound);
             GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
 
             

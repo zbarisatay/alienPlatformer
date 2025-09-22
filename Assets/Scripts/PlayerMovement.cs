@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     public float dashingTime = 0.2f;
     public float dashingCooldown = 1f;
     public GameManager gameManager;
+    public AudioSource audioSource;
+    public AudioClip jumpSound;
 
     [SerializeField] private TrailRenderer tr;
 
@@ -46,10 +48,13 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            audioSource.PlayOneShot(jumpSound);
             isGrounded = false;
+
         }
 
         anim.SetBool("isJumping", !isGrounded);
+        
 
         if (move > 0)
             transform.localScale = new Vector3(10, 10, 1);

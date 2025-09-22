@@ -20,6 +20,9 @@ public class PlayerHealth : MonoBehaviour
     private Animator anim;
     private Rigidbody2D rb;
     public List<GameObject> healths = new List<GameObject>();
+    public AudioSource audioSource;
+    public AudioClip deathSound;
+    public AudioClip hurtSound;
 
     void Start()
     {
@@ -28,10 +31,10 @@ public class PlayerHealth : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Hasar alma fonksiyonu
+    
     public void TakeDamage(int damage, Vector2 enemyPosition)
     {
-        if (isInvincible) return; // Invincible ise hasar alma
+        if (isInvincible) return; 
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -39,23 +42,25 @@ public class PlayerHealth : MonoBehaviour
 
         Debug.Log("Player Health: " + currentHealth);
 
-        // Hurt animasyonunu tetikle
+        
         if (anim != null)
         {
+            audioSource.PlayOneShot(hurtSound);
             anim.SetTrigger("Hurt");
         }
 
         if (currentHealth <= 0)
         {
+            audioSource.PlayOneShot(deathSound);
             Die();
-            return; // Ölünce diğer şeyleri yapma
+            return; 
         }
 
-        // Knockback uygulama
+        
         Vector2 knockDirection = (transform.position - (Vector3)enemyPosition).normalized;
         StartCoroutine(KnockbackCoroutine(knockDirection));
 
-        // Invincibility başlat
+        
         StartCoroutine(InvincibleCoroutine());
     }
 
@@ -86,20 +91,20 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("Player öldü!");
 
-        // Ölüm animasyonu varsa çalıştır
+        
         if (anim != null)
         {
             anim.SetTrigger("Die");
         }
 
-        // Game Over ekranını aç
+        
         FindObjectOfType<GameManager>().GameOver();
 
-        // Karakteri kapatmak istersen:
-        // gameObject.SetActive(false);
+        
+        
     }
 
-    // Düşmanla çarpışmayı kontrol et
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("enemy") && !isInvincible)
