@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float dashingPower = 24f;
     public float dashingTime = 0.2f;
     public float dashingCooldown = 1f;
+    public GameManager gameManager;
 
     [SerializeField] private TrailRenderer tr;
 
@@ -25,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (isDashing)
+        if (isDashing ||!gameManager.isGameStarted)
         {
             return;
         }

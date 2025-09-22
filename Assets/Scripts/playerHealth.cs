@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class PlayerHealth : MonoBehaviour
 
     private Animator anim;
     private Rigidbody2D rb;
+    public List<GameObject> healths = new List<GameObject>();
 
     void Start()
     {
@@ -33,6 +35,7 @@ public class PlayerHealth : MonoBehaviour
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        healths[currentHealth].SetActive(false);
 
         Debug.Log("Player Health: " + currentHealth);
 
@@ -42,7 +45,11 @@ public class PlayerHealth : MonoBehaviour
             anim.SetTrigger("Hurt");
         }
 
-        if (currentHealth <= 0) Die();
+        if (currentHealth <= 0)
+        {
+            Die();
+            return; // Ölünce diğer şeyleri yapma
+        }
 
         // Knockback uygulama
         Vector2 knockDirection = (transform.position - (Vector3)enemyPosition).normalized;
@@ -78,7 +85,18 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player öldü!");
-        // İsteğe bağlı: animasyon veya sahne reset
+
+        // Ölüm animasyonu varsa çalıştır
+        if (anim != null)
+        {
+            anim.SetTrigger("Die");
+        }
+
+        // Game Over ekranını aç
+        FindObjectOfType<GameManager>().GameOver();
+
+        // Karakteri kapatmak istersen:
+        // gameObject.SetActive(false);
     }
 
     // Düşmanla çarpışmayı kontrol et
@@ -87,6 +105,16 @@ public class PlayerHealth : MonoBehaviour
         if (collision.CompareTag("enemy") && !isInvincible)
         {
             TakeDamage(1, collision.transform.position);
+        }
+
+        if (collision.CompareTag("heart"))
+        {
+            if (currentHealth < maxHealth)
+            {
+                currentHealth++;
+                healths[currentHealth - 1].SetActive(true);
+                Destroy(collision.gameObject);
+            }
         }
     }
 }

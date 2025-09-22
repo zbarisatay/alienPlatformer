@@ -54,6 +54,8 @@ public class RhinoEnemy : MonoBehaviour
         Gizmos.DrawWireSphere(pointB.transform.position, 0.5f);
         Gizmos.DrawLine(pointA.transform.position, pointB.transform.position);
     }
+     
 
-    
+
+
 }

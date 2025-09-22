@@ -4,8 +4,9 @@ public class GunShooting : MonoBehaviour
 {
     public Transform shootingPoint;
     public GameObject bulletPrefab;
+    public GameManager gameManager;
 
-    
+
     void Start()
     {
         
@@ -14,6 +15,8 @@ public class GunShooting : MonoBehaviour
     
     void Update()
     {
+        if(!gameManager.isGameStarted)
+            return;
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
